@@ -31,12 +31,13 @@ public class Renderer extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         Bird bird = new Bird();
-        bird.initBird();
 
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
+                Bird.nanoTimer(currentNanoTime);
                 gc.clearRect(0, 0, windowWidth, windowHeight);
-                bird.renderCircle(gc);
+                bird.renderCircle(gc, mainScene, currentNanoTime);
+
             }
         }.start();
 
