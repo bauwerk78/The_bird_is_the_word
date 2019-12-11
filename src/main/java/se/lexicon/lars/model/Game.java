@@ -3,6 +3,8 @@ package se.lexicon.lars.model;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 
 import static se.lexicon.lars.model.Renderer.windowWidth;
@@ -12,24 +14,22 @@ public class Game {
 
     private static Random rand = new Random();
 
-    private double randomUpperPipeWidth;
-    private double randomUpperPipeHeight;
-    private double randomLowerPipeWidth;
-    private double randomLowerPipeHeight;
-    private double maxUpperPipeHeight;
-    private double maxLowerPipeHeight = (windowHeight / 2d);
-    private double minimumPipeWidth;
-    private double maximumPipeWidth;
+    private double upperPipeHeight;
+    private double lowerPipeHeight;
     private double minimumPipeHeight;
+    private double pipeWidth;
+    private double pipesStartingXPoint;
     private boolean renderNewPipes = true;
-    Pipe lowerPipe;
-    Pipe upperPipe;
+    ArrayList<Pipes> pipes = new ArrayList<>();
     Bird bird;
 
+    public Game() {
+        initGame();
+    }
+
     public void initGame() {
-        setMinimumPipeWidth(10);
-        setMaximumPipeWidth(40);
-        setMinimumPipeHeight(100);
+        setPipeWidth(50);
+        setPipesStartingXPoint(windowWidth + 50);
         createBird();
         createPipes();
     }
@@ -37,46 +37,22 @@ public class Game {
     public void renderGame(GraphicsContext gc, Scene scene) {
         gc.clearRect(0, 0, windowWidth, windowHeight);
         bird.renderCircle(gc, scene);
-
-        if(lowerPipe.getPositionX() + getRandomLowerPipeWidth() < 0 && upperPipe.getPositionX() + getRandomUpperPipeWidth() < 0) {
+        for(Pipes pipe : pipes) {
+            pipe.render(gc);
+        }
+        /*if (lowerPipes.getPositionX() + getLowerPipeWidth() < 0 && upperPipes.getPositionX() + getUpperPipeWidth() < 0) {
             renderNewPipes = true;
             createPipes();
         }
-        lowerPipe.render(gc);
-        upperPipe.render(gc);
-    }
-
-    private void randomizeHeight() {
-        //Lower pipe
-        setRandomLowerPipeHeight(rand.nextInt((int) getMaxLowerPipeHeight() - (int) getMinimumPipeHeight()) + getMinimumPipeHeight());
-
-        //Upper pipe
-        setMaxUpperPipeHeight(windowHeight - getRandomLowerPipeHeight());
-        setRandomUpperPipeHeight(rand.nextInt((int) getMaxUpperPipeHeight() - (int) getMinimumPipeHeight()) + getMinimumPipeHeight());
-        //System.out.println("lowerpipe height");
-    }
-
-    private void randomizeWidth() {
-
-        //Lower pipe
-        setRandomLowerPipeWidth(rand.nextInt((int) getMaximumPipeWidth()) + getMinimumPipeWidth());
-        //Upper pipe
-        setRandomUpperPipeWidth(rand.nextInt((int) getMaximumPipeWidth()) + getMinimumPipeWidth());
+        lowerPipes.render(gc);
+        upperPipes.render(gc);*/
     }
 
     public void createPipes() {
-        randomizeWidth();
-        randomizeHeight();
-        if(renderNewPipes) {
-            lowerPipe = null;
-            upperPipe = null;
-            renderNewPipes = false;
-        }
-        //Lower pipe
-        lowerPipe = new Pipe(windowHeight - getRandomLowerPipeHeight(), getRandomLowerPipeWidth(), getRandomLowerPipeHeight());
+        pipes.add(new Pipes(getPipesStartingXPoint(), getPipeWidth()));
+    }
 
-        //Upper pipe
-        upperPipe = new Pipe(0, getRandomUpperPipeWidth(), getRandomUpperPipeHeight());
+    public void removePipes() {
 
     }
 
@@ -84,68 +60,36 @@ public class Game {
         bird = new Bird();
     }
 
-    public double getMinimumPipeWidth() {
-        return minimumPipeWidth;
+    public double getPipesStartingXPoint() {
+        return pipesStartingXPoint;
     }
 
-    public void setMinimumPipeWidth(double minimumPipeWidth) {
-        this.minimumPipeWidth = minimumPipeWidth;
+    public void setPipesStartingXPoint(double pipesStartingXPoint) {
+        this.pipesStartingXPoint = pipesStartingXPoint;
     }
 
-    public double getMaximumPipeWidth() {
-        return maximumPipeWidth;
+    public double getPipeWidth() {
+        return pipeWidth;
     }
 
-    public void setMaximumPipeWidth(double maximumPipeWidth) {
-        this.maximumPipeWidth = maximumPipeWidth;
+    public void setPipeWidth(double pipeWidth) {
+        this.pipeWidth = pipeWidth;
     }
 
-    public double getRandomUpperPipeWidth() {
-        return randomUpperPipeWidth;
+    public double getUpperPipeHeight() {
+        return upperPipeHeight;
     }
 
-    public void setRandomUpperPipeWidth(double randomUpperPipeWidth) {
-        this.randomUpperPipeWidth = randomUpperPipeWidth;
+    public void setUpperPipeHeight(double upperPipeHeight) {
+        this.upperPipeHeight = upperPipeHeight;
     }
 
-    public double getRandomUpperPipeHeight() {
-        return randomUpperPipeHeight;
+    public double getLowerPipeHeight() {
+        return lowerPipeHeight;
     }
 
-    public void setRandomUpperPipeHeight(double randomUpperPipeHeight) {
-        this.randomUpperPipeHeight = randomUpperPipeHeight;
-    }
-
-    public double getRandomLowerPipeWidth() {
-        return randomLowerPipeWidth;
-    }
-
-    public void setRandomLowerPipeWidth(double randomLowerPipeWidth) {
-        this.randomLowerPipeWidth = randomLowerPipeWidth;
-    }
-
-    public double getRandomLowerPipeHeight() {
-        return randomLowerPipeHeight;
-    }
-
-    public void setRandomLowerPipeHeight(double randomLowerPipeHeight) {
-        this.randomLowerPipeHeight = randomLowerPipeHeight;
-    }
-
-    public double getMaxUpperPipeHeight() {
-        return maxUpperPipeHeight;
-    }
-
-    public void setMaxUpperPipeHeight(double maxUpperPipeHeight) {
-        this.maxUpperPipeHeight = maxUpperPipeHeight;
-    }
-
-    public double getMaxLowerPipeHeight() {
-        return maxLowerPipeHeight;
-    }
-
-    public void setMaxLowerPipeHeight(double maxLowerPipeHeight) {
-        this.maxLowerPipeHeight = maxLowerPipeHeight;
+    public void setLowerPipeHeight(double lowerPipeHeight) {
+        this.lowerPipeHeight = lowerPipeHeight;
     }
 
     public double getMinimumPipeHeight() {

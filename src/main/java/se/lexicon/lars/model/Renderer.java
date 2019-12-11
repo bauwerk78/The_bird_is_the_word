@@ -39,7 +39,6 @@ public class Renderer extends Application {
        /* Bird bird = new Bird();
         GameObject pipe = new Pipe();*/
         Game game = new Game();
-        game.initGame();
 
         new AnimationTimer() {
             public void handle(long currentNanoTime) {

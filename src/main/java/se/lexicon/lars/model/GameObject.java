@@ -17,9 +17,13 @@ public abstract class GameObject {
 
     public GameObject(){}
 
-    public GameObject(double objectWidth, double objectHeight) {
+    public GameObject(double positionX) {
+        this.positionX = positionX;
+    }
+
+    public GameObject(double positionX, double objectWidth) {
+        this.positionX = positionX;
         this.objectWidth = objectWidth;
-        this.objectHeight = objectHeight;
     }
 
     public GameObject(double positionY, double objectWidth, double objectHeight) {
