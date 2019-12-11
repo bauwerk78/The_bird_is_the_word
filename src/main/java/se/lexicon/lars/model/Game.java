@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import static se.lexicon.lars.model.Renderer.windowWidth;
@@ -19,7 +20,7 @@ public class Game {
     private double minimumPipeHeight;
     private double pipeWidth;
     private double pipesStartingXPoint;
-    private boolean renderNewPipes = true;
+    private boolean renderNewPipes = false;
     ArrayList<Pipes> pipes = new ArrayList<>();
     Bird bird;
 
@@ -37,15 +38,26 @@ public class Game {
     public void renderGame(GraphicsContext gc, Scene scene) {
         gc.clearRect(0, 0, windowWidth, windowHeight);
         bird.renderCircle(gc, scene);
-        for(Pipes pipe : pipes) {
-            pipe.render(gc);
+        Iterator<Pipes> pipe = pipes.iterator();
+        while(pipe.hasNext()) {
+            Pipes pip = pipe.next();
+            if(pip.getPositionX() + pip.getObjectWidth() <= 0) {
+                pipe.remove();
+            }
+
         }
-        /*if (lowerPipes.getPositionX() + getLowerPipeWidth() < 0 && upperPipes.getPositionX() + getUpperPipeWidth() < 0) {
-            renderNewPipes = true;
+        for (Pipes pipers : pipes) {
+            pipers.render(gc);
+            //TODO
+            if(pipers.getPositionX() < windowWidth / 2d) {
+                renderNewPipes = true;
+            }
+        }
+        if(renderNewPipes) {
             createPipes();
+            renderNewPipes = false;
         }
-        lowerPipes.render(gc);
-        upperPipes.render(gc);*/
+
     }
 
     public void createPipes() {
