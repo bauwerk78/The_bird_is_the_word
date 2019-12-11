@@ -13,6 +13,12 @@ public class Renderer extends Application {
     public static final int windowWidth = 800;
     public static final int windowHeight = 600;
     public static Long startNanoTime = System.nanoTime();
+    public static double elapsedTime;
+
+    public static void nanoTimer(long currentNanoTime) {
+        elapsedTime = (currentNanoTime - Renderer.startNanoTime.doubleValue()) / 1_000_000_000d;
+        Renderer.startNanoTime = currentNanoTime;
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -30,13 +36,17 @@ public class Renderer extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Bird bird = new Bird();
+       /* Bird bird = new Bird();
+        GameObject pipe = new Pipe();*/
+        Game game = new Game();
+        game.initGame();
 
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                Bird.nanoTimer(currentNanoTime);
-                gc.clearRect(0, 0, windowWidth, windowHeight);
-                bird.renderCircle(gc, mainScene, currentNanoTime);
+                nanoTimer(currentNanoTime);
+                game.renderGame(gc, mainScene);
+                //pipe.render(gc);
+                //bird.renderCircle(gc, mainScene, currentNanoTime);
 
             }
         }.start();

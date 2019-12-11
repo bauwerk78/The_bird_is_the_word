@@ -3,30 +3,38 @@ package se.lexicon.lars.model;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
-public class Bird {
+import static se.lexicon.lars.model.Renderer.elapsedTime;
 
-    public static double elapsedTime;
+public class Bird {
 
     private double positionX;
     private double positionY;
     private double velocity = 0;
     private double jumpSpeed = -30;
     private double speedX = 200;
-    private final double gravity = 120;
+    private final double gravity = 200;
     private double circleHeight = 50;
     private double circleWidth = 50;
-
+    private double imageWidth;
+    private double imageHeight;
+    private Image image;
     private ArrayList<String> input = new ArrayList<>();
 
     public Bird() {
         initBird();
     }
 
+    public void setImage() {
+        image = new Image("file:Images/mario_rambo1.gif", getImageWidth(), getImageHeight(), true, false);
+        //setImageWidth(image.getWidth());
+        //setImageHeight(image.getHeight());
+    }
 
     private void getPlayerInput(Scene scene) {
         scene.setOnKeyPressed(
@@ -49,17 +57,20 @@ public class Bird {
     }
 
     public void initBird() {
+        setImageWidth(80);
+        setImageHeight(50);
+        setImage();
         setPositionX(100);
-        setPositionY((Renderer.windowHeight - circleHeight) / 2);
+        setPositionY((Renderer.windowHeight / 2d) - getImageHeight());
     }
 
     public void playerInputResponse(GraphicsContext gc, Scene scene) {
         getPlayerInput(scene);
         if (input.contains("UP")) {
-            System.out.println("jump?");
+            //System.out.println("jump?");
             velocity += jumpSpeed;
         }
-        if (input.contains("RIGHT")) {
+/*        if (input.contains("RIGHT")) {
             System.out.println("going right");
             setPositionX(getPositionX() + speedX * elapsedTime);
             if (getPositionX() > Renderer.windowWidth - circleWidth) {
@@ -72,30 +83,44 @@ public class Bird {
             if (getPositionX() < 0) {
                 setPositionX(0);
             }
-        }
-    }
-
-    public static void nanoTimer(long currentNanoTime) {
-        elapsedTime = (currentNanoTime - Renderer.startNanoTime.doubleValue()) / 1_000_000_000d;
-        Renderer.startNanoTime = currentNanoTime;
+        }*/
     }
 
     //TODO ball falls through, can't see what kind of stupid i have done atm.
-    public void renderCircle(GraphicsContext gc, Scene scene, long currentNanoTime) {
+    public void renderCircle(GraphicsContext gc, Scene scene) {
         playerInputResponse(gc, scene);
         velocity += (gravity * elapsedTime);
         setPositionY(getPositionY() + (velocity * elapsedTime));
-        if (getPositionY() <  0) {
+        if (getPositionY() < 0) {
             setPositionY(0);
             velocity = 0;
         }
-        if(getPositionY() + circleHeight >= Renderer.windowHeight) {
-            setPositionY(Renderer.windowHeight - circleHeight);
+        if (getPositionY() + getImageHeight() >= Renderer.windowHeight) {
+            setPositionY(Renderer.windowHeight - getImageHeight());
             velocity = 0;
         }
-        System.out.println(getPositionY());
-        gc.setFill(Color.BLACK);
+        //System.out.println(getPositionY());
+
+        /*gc.setFill(Color.BLACK);
         gc.fillOval(getPositionX(), getPositionY(), circleWidth, circleHeight);
+        gc.setFill(Color.BLACK);*/
+        gc.drawImage(image,getPositionX(), getPositionY(), getImageWidth(), getImageHeight());
+    }
+
+    public double getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(double imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public double getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(double imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
     public double getPositionX() {
