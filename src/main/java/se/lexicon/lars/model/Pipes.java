@@ -85,10 +85,10 @@ public class Pipes extends GameObject {
     private void setPipes() {
         //Upper pipe.
         setUpperHeight(rand.nextInt(windowHeight - ((int) getGapValue() / 2) - ((int) getMinimumHeight() * 2)) + getMinimumHeight());
-        System.out.println("upperheight " + getUpperHeight());
+        //System.out.println("upperheight " + getUpperHeight());
         //Lower pipe.
         setLowerHeight((windowHeight - getUpperHeight()) - ((int) getGapValue() / 2d));
-        System.out.println("lowerheight " + getLowerHeight());
+        //System.out.println("lowerheight " + getLowerHeight());
     }
 
     public Rectangle2D getUpperPipeBoundary() {
