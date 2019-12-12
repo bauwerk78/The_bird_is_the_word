@@ -33,7 +33,7 @@ public class Game {
 
     public void initGame() {
         setPipeWidth(50);
-        setPipesStartingXPoint(windowWidth + 50);
+        setPipesStartingXPoint(windowWidth);
         createBird();
         createPipes();
     }
