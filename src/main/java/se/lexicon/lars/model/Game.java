@@ -1,5 +1,6 @@
 package se.lexicon.lars.model;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -8,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import static se.lexicon.lars.model.Renderer.windowWidth;
-import static se.lexicon.lars.model.Renderer.windowHeight;
+import static se.lexicon.lars.model.Renderer.*;
 
 public class Game {
 
@@ -21,6 +21,9 @@ public class Game {
     private double pipeWidth;
     private double pipesStartingXPoint;
     private boolean renderNewPipes = false;
+    private double renderTimer;
+    private boolean gameOver = false;
+
     ArrayList<Pipes> pipes = new ArrayList<>();
     Bird bird;
 
@@ -35,41 +38,98 @@ public class Game {
         createPipes();
     }
 
+    public void resetGame() {
+        bird = null;
+        pipes.clear();
+        setRenderTimer(0);
+        setGameOver(false);
+    }
+
     public void renderGame(GraphicsContext gc, Scene scene) {
         gc.clearRect(0, 0, windowWidth, windowHeight);
-        bird.renderCircle(gc, scene);
-        Iterator<Pipes> pipe = pipes.iterator();
-        while(pipe.hasNext()) {
-            Pipes pip = pipe.next();
-            if(pip.getPositionX() + pip.getObjectWidth() <= 0) {
-                pipe.remove();
+        if (!isGameOver()) {
+            pipeTimer();
+            bird.renderCircle(gc, scene);
+            Iterator<Pipes> pipe = pipes.iterator();
+            while (pipe.hasNext()) {
+                Pipes pip = pipe.next();
+                if (pip.getPositionX() + pip.getObjectWidth() <= 0) {
+                    pipe.remove();
+                }
+                if (collisionDetection(bird.getBoundaryOfBird(), pip.getUpperPipeBoundary()) ||
+                    collisionDetection(bird.getBoundaryOfBird(), pip.getLowerPipeBoundary())) {
+                    setGameOver(true);
+                }
             }
-
-        }
-        for (Pipes pipers : pipes) {
-            pipers.render(gc);
-            //TODO
-            if(pipers.getPositionX() < windowWidth / 2d) {
-                renderNewPipes = true;
+            for (Pipes pipers : pipes) {
+                pipers.render(gc);
             }
         }
-        if(renderNewPipes) {
-            createPipes();
-            renderNewPipes = false;
-        }
+    }//End of renderGame method.
 
+    public void mainGameLoop(GraphicsContext gc, Scene scene) {
+        if(isGameOver()) {
+            resetGame();
+            initGame();
+            return;
+        }
+        renderGame(gc, scene);
+    }
+
+
+
+    //Timer to spawn new pipes.
+    public void pipeTimer() {
+        float amountOfSecondsBetweenSpawns = 3;
+        if (getRenderTimer() < amountOfSecondsBetweenSpawns) {
+            setRenderTimer(getRenderTimer() + elapsedTime);
+            return;
+        }
+        setRenderTimer(0);
+        createPipes();
+    }
+
+    //Check if object1 collides with object2
+    public boolean collisionDetection(Rectangle2D object1, Rectangle2D object2) {
+        if (object1.intersects(object2)) {
+            //System.out.println("collision detected.");
+            object2 = null;
+            object1 = null;
+            return true;
+        }
+        return false;
     }
 
     public void createPipes() {
         pipes.add(new Pipes(getPipesStartingXPoint(), getPipeWidth()));
     }
 
-    public void removePipes() {
-
-    }
-
     public void createBird() {
         bird = new Bird();
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public double getRenderTimer() {
+        return renderTimer;
+    }
+
+    public void setRenderTimer(double renderTimer) {
+        this.renderTimer = renderTimer;
+    }
+
+    public boolean isRenderNewPipes() {
+        return renderNewPipes;
+    }
+
+    public void setRenderNewPipes(boolean renderNewPipes) {
+        this.renderNewPipes = renderNewPipes;
     }
 
     public double getPipesStartingXPoint() {

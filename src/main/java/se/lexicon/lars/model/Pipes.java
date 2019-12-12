@@ -4,6 +4,7 @@ import static se.lexicon.lars.model.Renderer.elapsedTime;
 import static se.lexicon.lars.model.Renderer.windowWidth;
 import static se.lexicon.lars.model.Renderer.windowHeight;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.paint.Color;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -88,6 +89,14 @@ public class Pipes extends GameObject {
         //Lower pipe.
         setLowerHeight((windowHeight - getUpperHeight()) - ((int) getGapValue() / 2d));
         System.out.println("lowerheight " + getLowerHeight());
+    }
+
+    public Rectangle2D getUpperPipeBoundary() {
+        return new Rectangle2D(getPositionX(), getUpperYPosition(), getObjectWidth(), getUpperHeight());
+    }
+
+    public Rectangle2D getLowerPipeBoundary() {
+        return new Rectangle2D(getPositionX(), getLowerYPosition(), getObjectWidth(), getLowerHeight());
     }
 
     public double getUpperHeight() {

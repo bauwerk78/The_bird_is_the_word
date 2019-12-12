@@ -1,6 +1,7 @@
 package se.lexicon.lars.model;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -31,7 +32,7 @@ public class Bird {
     }
 
     public void setImage() {
-        image = new Image("file:Images/mario_rambo1.gif", getImageWidth(), getImageHeight(), true, false);
+        image = new Image("file:Images/mario_rambo2.gif", getImageWidth(), getImageHeight(), true, false);
         //setImageWidth(image.getWidth());
         //setImageHeight(image.getHeight());
     }
@@ -62,6 +63,10 @@ public class Bird {
         setImage();
         setPositionX(100);
         setPositionY((Renderer.windowHeight / 2d) - getImageHeight());
+    }
+
+    public Rectangle2D getBoundaryOfBird() {
+        return new Rectangle2D(getPositionX(), getPositionY(), getImageWidth(), getImageHeight());
     }
 
     public void playerInputResponse(GraphicsContext gc, Scene scene) {
