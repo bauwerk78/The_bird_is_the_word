@@ -4,7 +4,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -49,7 +48,7 @@ public class Game {
         gc.clearRect(0, 0, windowWidth, windowHeight);
         if (!isGameOver()) {
             pipeTimer();
-            bird.renderCircle(gc, scene);
+            bird.renderBird(gc, scene);
             Iterator<Pipes> pipe = pipes.iterator();
             while (pipe.hasNext()) {
                 Pipes pip = pipe.next();

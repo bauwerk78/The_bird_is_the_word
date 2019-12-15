@@ -33,8 +33,7 @@ public class Bird {
 
     public void setImage() {
         image = new Image("file:Images/mario_rambo2.gif", getImageWidth(), getImageHeight(), true, false);
-        //setImageWidth(image.getWidth());
-        //setImageHeight(image.getHeight());
+
     }
 
     private void getPlayerInput(Scene scene) {
@@ -92,7 +91,7 @@ public class Bird {
     }
 
     //TODO ball falls through, can't see what kind of stupid i have done atm.
-    public void renderCircle(GraphicsContext gc, Scene scene) {
+    public void renderBird(GraphicsContext gc, Scene scene) {
         playerInputResponse(gc, scene);
         velocity += (gravity * elapsedTime);
         setPositionY(getPositionY() + (velocity * elapsedTime));
@@ -104,11 +103,7 @@ public class Bird {
             setPositionY(Renderer.windowHeight - getImageHeight());
             velocity = 0;
         }
-        //System.out.println(getPositionY());
 
-        /*gc.setFill(Color.BLACK);
-        gc.fillOval(getPositionX(), getPositionY(), circleWidth, circleHeight);
-        gc.setFill(Color.BLACK);*/
         gc.drawImage(image,getPositionX(), getPositionY(), getImageWidth(), getImageHeight());
     }
 
