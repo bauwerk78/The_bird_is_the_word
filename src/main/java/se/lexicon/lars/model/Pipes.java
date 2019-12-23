@@ -20,6 +20,7 @@ public class Pipes extends GameObject {
     private double gapValue;
     private double upperHeight;
     private double lowerHeight;
+    private boolean scoreSet = false;
 
     public Pipes() {
         init();
@@ -149,5 +150,13 @@ public class Pipes extends GameObject {
 
     public void setLowerYPosition(double lowerYPosition) {
         this.lowerYPosition = lowerYPosition;
+    }
+
+    public boolean isScoreSet() {
+        return scoreSet;
+    }
+
+    public void setScoreSet(boolean scoreSet) {
+        this.scoreSet = scoreSet;
     }
 }//End of class.

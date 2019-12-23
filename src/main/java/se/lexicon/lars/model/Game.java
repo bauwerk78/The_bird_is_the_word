@@ -82,7 +82,12 @@ public class Game {
     }
 
     public void renderGameScore(GraphicsContext gc) {
-        gameScore = gameScore + 0.1f;
+        for(Pipes pipe : pipes) {
+            if(bird.getPositionX() >= pipe.getPositionX() + pipe.getObjectWidth() && !pipe.isScoreSet()) {
+                gameScore = gameScore + 1;
+                pipe.setScoreSet(true);
+            }
+        }
         Font theFont = Font.font("Verdana", FontWeight.BOLD, 15);
         gc.setFont(theFont);
         gc.setFill(Color.DARKRED);
