@@ -90,7 +90,6 @@ public class Bird {
         }*/
     }
 
-    //TODO ball falls through, can't see what kind of stupid i have done atm.
     public void renderBird(GraphicsContext gc, Scene scene) {
         playerInputResponse(gc, scene);
         velocity += (gravity * elapsedTime);

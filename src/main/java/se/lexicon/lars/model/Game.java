@@ -3,6 +3,9 @@ package se.lexicon.lars.model;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,6 +25,7 @@ public class Game {
     private boolean renderNewPipes = false;
     private double renderTimer;
     private boolean gameOver = false;
+    private double gameScore;
 
     ArrayList<Pipes> pipes = new ArrayList<>();
     Bird bird;
@@ -42,6 +46,7 @@ public class Game {
         pipes.clear();
         setRenderTimer(0);
         setGameOver(false);
+        gameScore = 0;
     }
 
     public void renderGame(GraphicsContext gc, Scene scene) {
@@ -56,7 +61,7 @@ public class Game {
                     pipe.remove();
                 }
                 if (collisionDetection(bird.getBoundaryOfBird(), pip.getUpperPipeBoundary()) ||
-                    collisionDetection(bird.getBoundaryOfBird(), pip.getLowerPipeBoundary())) {
+                        collisionDetection(bird.getBoundaryOfBird(), pip.getLowerPipeBoundary())) {
                     setGameOver(true);
                 }
             }
@@ -67,15 +72,24 @@ public class Game {
     }//End of renderGame method.
 
     public void mainGameLoop(GraphicsContext gc, Scene scene) {
-        if(isGameOver()) {
+        if (isGameOver()) {
             resetGame();
             initGame();
             return;
         }
         renderGame(gc, scene);
+        renderGameScore(gc);
     }
 
+    public void renderGameScore(GraphicsContext gc) {
+        gameScore = gameScore + 0.1f;
+        Font theFont = Font.font("Verdana", FontWeight.BOLD, 15);
+        gc.setFont(theFont);
+        gc.setFill(Color.DARKRED);
+        String totalScore = ("Score: " + (int) gameScore);
 
+        gc.fillText(totalScore, 10, 25);
+    }
 
     //Timer to spawn new pipes.
     public void pipeTimer() {

@@ -44,9 +44,6 @@ public class Renderer extends Application {
             public void handle(long currentNanoTime) {
                 nanoTimer(currentNanoTime);
                 game.mainGameLoop(gc, mainScene);
-                //pipe.render(gc);
-                //bird.renderCircle(gc, mainScene, currentNanoTime);
-
             }
         }.start();
 
