@@ -7,9 +7,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Scanner;
 
 import static se.lexicon.lars.model.Renderer.*;
 
@@ -26,6 +31,9 @@ public class Game {
     private double renderTimer;
     private boolean gameOver = false;
     private double gameScore;
+    private double highScore;
+    private File file;
+    private FileWriter fileWriter;
 
     ArrayList<Pipes> pipes = new ArrayList<>();
     Bird bird;
@@ -39,6 +47,7 @@ public class Game {
         setPipesStartingXPoint(windowWidth);
         createBird();
         createPipes();
+        loadHighScore();
     }
 
     public void resetGame() {
@@ -46,6 +55,10 @@ public class Game {
         pipes.clear();
         setRenderTimer(0);
         setGameOver(false);
+        if(gameScore > highScore) {
+            highScore = gameScore;
+            saveHighScore();
+        }
         gameScore = 0;
     }
 
@@ -81,6 +94,29 @@ public class Game {
         renderGameScore(gc);
     }
 
+    public void loadHighScore() {
+        try {
+            file = new File("resources/HighScore.txt");
+            Scanner scanner = new Scanner(file);
+            if(scanner.hasNext()) {
+                highScore = Double.parseDouble(scanner.nextLine());
+            }
+            scanner.close();
+        } catch(NullPointerException | FileNotFoundException e) {
+            System.out.println("Error message given: " + e);
+        }
+    }
+
+    public void saveHighScore() {
+        try {
+            fileWriter = new FileWriter(file);
+            fileWriter.write(Double.toString(highScore));
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Saving failed: " + e);
+        }
+    }
+
     public void renderGameScore(GraphicsContext gc) {
         for(Pipes pipe : pipes) {
             if(bird.getPositionX() >= pipe.getPositionX() + pipe.getObjectWidth() && !pipe.isScoreSet()) {
@@ -91,9 +127,11 @@ public class Game {
         Font theFont = Font.font("Verdana", FontWeight.BOLD, 15);
         gc.setFont(theFont);
         gc.setFill(Color.DARKRED);
+        String bestScore = ("High Score: " + (int) highScore);
         String totalScore = ("Score: " + (int) gameScore);
+        gc.fillText(bestScore, 10, 25);
+        gc.fillText(totalScore, 10, 50);
 
-        gc.fillText(totalScore, 10, 25);
     }
 
     //Timer to spawn new pipes.
