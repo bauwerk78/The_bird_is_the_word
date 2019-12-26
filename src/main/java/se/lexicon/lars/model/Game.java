@@ -103,7 +103,7 @@ public class Game {
             }
             scanner.close();
         } catch(NullPointerException | FileNotFoundException e) {
-            System.out.println("Error message given: " + e);
+            System.out.println("Loading high score failed: " + e);
         }
     }
 
@@ -113,7 +113,7 @@ public class Game {
             fileWriter.write(Double.toString(highScore));
             fileWriter.close();
         } catch (IOException e) {
-            System.out.println("Saving failed: " + e);
+            System.out.println("Saving high score failed: " + e);
         }
     }
 
