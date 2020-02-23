@@ -14,6 +14,10 @@ import static se.lexicon.lars.model.Renderer.elapsedTime;
 
 public class Bird {
 
+
+    private Image image;
+    private ArrayList<String> input = new ArrayList<>();
+    private BirdAnimation birdAnimation;
     private double positionX;
     private double positionY;
     private double velocity = 0;
@@ -24,8 +28,8 @@ public class Bird {
     private double circleWidth = 50;
     private double imageWidth;
     private double imageHeight;
-    private Image image;
-    private ArrayList<String> input = new ArrayList<>();
+    private boolean gameOver;
+
 
     public Bird() {
         initBird();
@@ -62,6 +66,7 @@ public class Bird {
         setImage();
         setPositionX(100);
         setPositionY((Renderer.windowHeight / 2d) - getImageHeight());
+        birdAnimation = new BirdAnimation(positionX, positionY, getImageWidth(), getImageHeight());
     }
 
     public Rectangle2D getBoundaryOfBird() {
@@ -73,21 +78,9 @@ public class Bird {
         if (input.contains("UP")) {
             //System.out.println("jump?");
             velocity += jumpSpeed;
+            birdAnimation.resetFrameCount();
         }
-/*        if (input.contains("RIGHT")) {
-            System.out.println("going right");
-            setPositionX(getPositionX() + speedX * elapsedTime);
-            if (getPositionX() > Renderer.windowWidth - circleWidth) {
-                setPositionX(Renderer.windowWidth - circleWidth);
-            }
-        }
-        if (input.contains("LEFT")) {
-            System.out.println("going left");
-            setPositionX(getPositionX() - speedX * elapsedTime);
-            if (getPositionX() < 0) {
-                setPositionX(0);
-            }
-        }*/
+
     }
 
     public void renderBird(GraphicsContext gc, Scene scene) {
@@ -100,10 +93,12 @@ public class Bird {
         }
         if (getPositionY() + getImageHeight() >= Renderer.windowHeight) {
             setPositionY(Renderer.windowHeight - getImageHeight());
+            gameOver = true;
             velocity = 0;
         }
 
-        gc.drawImage(image,getPositionX(), getPositionY(), getImageWidth(), getImageHeight());
+        //gc.drawImage(image,getPositionX(), getPositionY(), getImageWidth(), getImageHeight());
+        birdAnimation.animate(gc, positionX, positionY);
     }
 
     public double getImageWidth() {
@@ -136,6 +131,10 @@ public class Bird {
 
     public void setPositionY(double positionY) {
         this.positionY = positionY;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 }//End of class.
 

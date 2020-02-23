@@ -1,7 +1,6 @@
 package se.lexicon.lars.model;
 
 import static se.lexicon.lars.model.Renderer.elapsedTime;
-import static se.lexicon.lars.model.Renderer.windowWidth;
 import static se.lexicon.lars.model.Renderer.windowHeight;
 
 import javafx.geometry.Rectangle2D;
@@ -22,20 +21,6 @@ public class Pipes extends GameObject {
     private double lowerHeight;
     private boolean scoreSet = false;
 
-    public Pipes() {
-        init();
-    }
-
-    public Pipes(double positionX) {
-        super(positionX);
-        setObjectSpeedX(100);
-        setMinimumHeight(100);
-        setGapValue(200);
-        setPipes();
-        //setPositionX(windowWidth + randomXPosition());
-        setPositionX(positionX);
-    }
-
     public Pipes(double positionX, double objectWidth) {
         super(positionX, objectWidth);
         setObjectSpeedX(100);
@@ -45,19 +30,6 @@ public class Pipes extends GameObject {
         setPipes();
         //setPositionX(windowWidth + randomXPosition());
         setPositionX(positionX);
-    }
-
-    public Pipes(double positionY, double objectWidth, double objectHeight) {
-        super(positionY, objectWidth, objectHeight);
-
-    }
-
-    public Pipes(double objectWidth, double objectHeight, double objectSpeedX, double objectSpeedY) {
-        super(objectWidth, objectHeight, objectSpeedX, objectSpeedY);
-    }
-
-    public Pipes(double positionX, double positionY, double objectWidth, double objectHeight, double objectSpeedX, double objectSpeedY) {
-        super(positionX, positionY, objectWidth, objectHeight, objectSpeedX, objectSpeedY);
     }
 
     @Override
@@ -130,10 +102,6 @@ public class Pipes extends GameObject {
 
     public void setMinimumHeight(double minimumHeight) {
         this.minimumHeight = minimumHeight;
-    }
-
-    private double randomXPosition() {
-        return rand.nextInt(180) + 20;
     }
 
     public double getUpperYPosition() {

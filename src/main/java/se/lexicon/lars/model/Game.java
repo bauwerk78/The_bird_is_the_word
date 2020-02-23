@@ -35,15 +35,15 @@ public class Game {
     private File file;
     private FileWriter fileWriter;
 
-    ArrayList<Pipes> pipes = new ArrayList<>();
-    Bird bird;
+    private ArrayList<Pipes> pipes = new ArrayList<>();
+    private Bird bird;
 
     public Game() {
         initGame();
     }
 
     public void initGame() {
-        setPipeWidth(50);
+        setPipeWidth(75);
         setPipesStartingXPoint(windowWidth);
         createBird();
         createPipes();
@@ -76,6 +76,9 @@ public class Game {
                 if (collisionDetection(bird.getBoundaryOfBird(), pip.getUpperPipeBoundary()) ||
                         collisionDetection(bird.getBoundaryOfBird(), pip.getLowerPipeBoundary())) {
                     setGameOver(true);
+                }
+                if(bird.isGameOver()) {
+                    gameOver = true;
                 }
             }
             for (Pipes pipers : pipes) {
@@ -147,13 +150,7 @@ public class Game {
 
     //Check if object1 collides with object2
     public boolean collisionDetection(Rectangle2D object1, Rectangle2D object2) {
-        if (object1.intersects(object2)) {
-            //System.out.println("collision detected.");
-            object2 = null;
-            object1 = null;
-            return true;
-        }
-        return false;
+        return object1.intersects(object2);
     }
 
     public void createPipes() {
