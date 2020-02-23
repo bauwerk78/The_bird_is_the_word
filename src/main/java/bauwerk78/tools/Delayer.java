@@ -1,6 +1,6 @@
-package se.lexicon.lars.tools;
+package bauwerk78.tools;
 
-import static se.lexicon.lars.model.Renderer.elapsedTime;
+import static bauwerk78.model.Renderer.elapsedTime;
 
 public class Delayer {
 

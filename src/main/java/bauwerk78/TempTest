@@ -5,8 +5,8 @@ import javafx.scene.canvas.GraphicsContext;
 
 import java.util.Random;
 
-import static se.lexicon.lars.model.Renderer.windowWidth;
-import static se.lexicon.lars.model.Renderer.windowHeight;
+import static Renderer.windowWidth;
+import static Renderer.windowHeight;
 
 public class Game {
 

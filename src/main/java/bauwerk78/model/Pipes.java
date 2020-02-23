@@ -1,7 +1,4 @@
-package se.lexicon.lars.model;
-
-import static se.lexicon.lars.model.Renderer.elapsedTime;
-import static se.lexicon.lars.model.Renderer.windowHeight;
+package bauwerk78.model;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.paint.Color;
@@ -39,14 +36,14 @@ public class Pipes extends GameObject {
 
     @Override
     protected void update() {
-        setPositionX((getPositionX()) - (getObjectSpeedX() * elapsedTime));
+        setPositionX((getPositionX()) - (getObjectSpeedX() * Renderer.elapsedTime));
     }
 
     @Override
     protected void render(GraphicsContext gc) {
         update();
         //Lower pipe
-        setLowerYPosition(windowHeight - getLowerHeight());
+        setLowerYPosition(Renderer.windowHeight - getLowerHeight());
         gc.setFill(Color.BLACK);
         gc.fillRect(getPositionX(), getLowerYPosition(), getObjectWidth(), getLowerHeight());
         //Upper pipe
@@ -57,10 +54,10 @@ public class Pipes extends GameObject {
 
     private void setPipes() {
         //Upper pipe.
-        setUpperHeight(rand.nextInt(windowHeight - ((int) getGapValue() / 2) - ((int) getMinimumHeight() * 2)) + getMinimumHeight());
+        setUpperHeight(rand.nextInt(Renderer.windowHeight - ((int) getGapValue() / 2) - ((int) getMinimumHeight() * 2)) + getMinimumHeight());
         //System.out.println("upperheight " + getUpperHeight());
         //Lower pipe.
-        setLowerHeight((windowHeight - getUpperHeight()) - ((int) getGapValue() / 2d));
+        setLowerHeight((Renderer.windowHeight - getUpperHeight()) - ((int) getGapValue() / 2d));
         //System.out.println("lowerheight " + getLowerHeight());
     }
 

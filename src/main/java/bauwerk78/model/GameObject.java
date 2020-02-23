@@ -1,10 +1,6 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
 import javafx.scene.canvas.GraphicsContext;
-
-import static se.lexicon.lars.model.Renderer.elapsedTime;
-import static se.lexicon.lars.model.Renderer.windowWidth;
-import static se.lexicon.lars.model.Renderer.windowHeight;
 
 public abstract class GameObject {
 

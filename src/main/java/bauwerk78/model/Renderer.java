@@ -1,4 +1,4 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;

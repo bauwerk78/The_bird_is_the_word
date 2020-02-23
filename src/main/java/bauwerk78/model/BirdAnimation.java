@@ -1,8 +1,8 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
+import bauwerk78.tools.Delayer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import se.lexicon.lars.tools.Delayer;
 
 import java.util.ArrayList;
 import java.util.List;

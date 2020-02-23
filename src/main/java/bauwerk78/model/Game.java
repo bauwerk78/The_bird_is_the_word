@@ -1,4 +1,4 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
-import static se.lexicon.lars.model.Renderer.*;
+import static bauwerk78.model.Renderer.*;
 
 public class Game {
 
