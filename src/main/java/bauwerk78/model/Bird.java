@@ -4,7 +4,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 
 import java.util.ArrayList;
@@ -13,30 +12,19 @@ import static bauwerk78.model.Renderer.elapsedTime;
 
 public class Bird {
 
-
-    private Image image;
     private ArrayList<String> input = new ArrayList<>();
     private BirdAnimation birdAnimation;
     private double positionX;
     private double positionY;
     private double velocity = 0;
     private double jumpSpeed = -30;
-    private double speedX = 200;
     private final double gravity = 200;
-    private double circleHeight = 50;
-    private double circleWidth = 50;
     private double imageWidth;
     private double imageHeight;
     private boolean gameOver;
 
-
     public Bird() {
         initBird();
-    }
-
-    public void setImage() {
-        image = new Image("file:Images/mario_rambo2.gif", getImageWidth(), getImageHeight(), true, false);
-
     }
 
     private void getPlayerInput(Scene scene) {
@@ -62,7 +50,6 @@ public class Bird {
     public void initBird() {
         setImageWidth(80);
         setImageHeight(50);
-        setImage();
         setPositionX(100);
         setPositionY((Renderer.windowHeight / 2d) - getImageHeight());
         birdAnimation = new BirdAnimation(positionX, positionY, getImageWidth(), getImageHeight());
@@ -72,7 +59,7 @@ public class Bird {
         return new Rectangle2D(getPositionX(), getPositionY(), getImageWidth(), getImageHeight());
     }
 
-    public void playerInputResponse(GraphicsContext gc, Scene scene) {
+    public void playerInputResponse(Scene scene) {
         getPlayerInput(scene);
         if (input.contains("UP")) {
             //System.out.println("jump?");
@@ -83,7 +70,7 @@ public class Bird {
     }
 
     public void renderBird(GraphicsContext gc, Scene scene) {
-        playerInputResponse(gc, scene);
+        playerInputResponse(scene);
         velocity += (gravity * elapsedTime);
         setPositionY(getPositionY() + (velocity * elapsedTime));
         if (getPositionY() < 0) {

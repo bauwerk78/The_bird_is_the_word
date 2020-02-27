@@ -13,27 +13,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Scanner;
 
 import static bauwerk78.model.Renderer.*;
 
 public class Game {
 
-    private static Random rand = new Random();
-
-    private double upperPipeHeight;
-    private double lowerPipeHeight;
-    private double minimumPipeHeight;
     private double pipeWidth;
     private double pipesStartingXPoint;
-    private boolean renderNewPipes = false;
     private double renderTimer;
     private boolean gameOver = false;
     private double gameScore;
     private double highScore;
     private File file;
-    private FileWriter fileWriter;
 
     private ArrayList<Pipes> pipes = new ArrayList<>();
     private Bird bird;
@@ -112,7 +104,7 @@ public class Game {
 
     public void saveHighScore() {
         try {
-            fileWriter = new FileWriter(file);
+            FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(Double.toString(highScore));
             fileWriter.close();
         } catch (IOException e) {
@@ -177,14 +169,6 @@ public class Game {
         this.renderTimer = renderTimer;
     }
 
-    public boolean isRenderNewPipes() {
-        return renderNewPipes;
-    }
-
-    public void setRenderNewPipes(boolean renderNewPipes) {
-        this.renderNewPipes = renderNewPipes;
-    }
-
     public double getPipesStartingXPoint() {
         return pipesStartingXPoint;
     }
@@ -201,27 +185,4 @@ public class Game {
         this.pipeWidth = pipeWidth;
     }
 
-    public double getUpperPipeHeight() {
-        return upperPipeHeight;
-    }
-
-    public void setUpperPipeHeight(double upperPipeHeight) {
-        this.upperPipeHeight = upperPipeHeight;
-    }
-
-    public double getLowerPipeHeight() {
-        return lowerPipeHeight;
-    }
-
-    public void setLowerPipeHeight(double lowerPipeHeight) {
-        this.lowerPipeHeight = lowerPipeHeight;
-    }
-
-    public double getMinimumPipeHeight() {
-        return minimumPipeHeight;
-    }
-
-    public void setMinimumPipeHeight(double minimumPipeHeight) {
-        this.minimumPipeHeight = minimumPipeHeight;
-    }
 }

@@ -1,5 +1,6 @@
 package bauwerk78.model;
 
+import bauwerk78.graphics.ScrollingBackground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -25,13 +26,15 @@ public class Renderer extends Application {
 
         primaryStage.setTitle("The bird is the word.");
         Group root = new Group();
-        Scene mainScene = new Scene(root);
+        Scene mainScene = new Scene(root, windowWidth, windowHeight);
 
         primaryStage.setScene(mainScene);
         primaryStage.setResizable(false);
         primaryStage.sizeToScene();
 
-        Canvas canvas = new Canvas(windowWidth, windowHeight);
+        Canvas canvas = new Canvas(windowWidth * 2, windowHeight);
+        ScrollingBackground scrollingBackground = new ScrollingBackground();
+        root.getChildren().add(scrollingBackground.getPane());
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -40,10 +43,12 @@ public class Renderer extends Application {
         GameObject pipe = new Pipe();*/
         Game game = new Game();
 
+
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 nanoTimer(currentNanoTime);
                 game.mainGameLoop(gc, mainScene);
+                scrollingBackground.update();
             }
         }.start();
 
